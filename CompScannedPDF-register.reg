@@ -1,0 +1,8 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\SystemFileAssociations\.pdf\shell\CompScannedPDF]
+@="Compress with CompScannedPDF"
+"Icon"="shell32.dll,-46"
+
+[HKEY_CLASSES_ROOT\SystemFileAssociations\.pdf\shell\CompScannedPDF\command]
+@="\"C:\\Users\\pikum\\AppData\\Local\\Python\\pythoncore-3.14-64\\pythonw.exe\" \"C:\\poppler-25.12.0\\CompScannedPDF.pyw\" \"%1\""
