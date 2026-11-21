@@ -1,285 +1,127 @@
 # CompScannedPDF
 
-> スキャンPDF専用 圧縮ツール — ローカル処理・外部送信なし・完全無料
+スキャンPDF専用の圧縮ツールです。処理はすべてPC内で行い、ファイルを外部に送信しません。
 
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python&logoColor=white)
-![Platform](https://img.shields.io/badge/Platform-Windows%2010%20%2F%2011-lightgrey?logo=windows)
-![License](https://img.shields.io/badge/License-MIT-green)
-![Free](https://img.shields.io/badge/Price-Free-brightgreen)
+- Windows 10 / 11 用
+- exe 版は Python や poppler のインストール不要
+- 3段階の圧縮モード（品質重視 / バランス / サイズ優先）
+- PDF の右クリックメニューから起動可能（任意）
 
----
-
-## 📌 このツールについて
-
-複合機やスキャナーで作成した**スキャンPDF**を、PC上だけで圧縮できるデスクトップアプリです。
-
-| 項目 | 内容 |
-|------|------|
-| 🔒 プライバシー | ファイルは一切外部に送信されません |
-| 💰 コスト | 完全無料（Adobe Acrobat・iLovePDF 不要） |
-| 💻 動作環境 | Windows 10 / 11 |
-| 🗜️ 圧縮率 | スキャンPDFで最大約90%削減 |
-
-> ⚠️ **対象はスキャンPDFのみです**
-> Word・Excelから作成したテキストPDFには効果がありません。
-> PDFの文字をマウスで選択できる → テキストPDF（対象外）
-> PDFの文字を選択できない → スキャンPDF（対象 ✅）
+> ⚠️ 対象はスキャンPDFのみです。Word や Excel から作った「文字を選択できるPDF」は小さくならず、逆に大きくなることがあります。
 
 ---
 
-## 📦 ファイル構成
+## 🚀 使い方（exe 版）
+
+### 1. ダウンロードして配置する
+
+1. 配布された `CompScannedPDF-windows.zip` を解凍する
+2. 中のファイルを好きなフォルダにまとめて置く（例：`C:\Tools\CompScannedPDF\`）
 
 ```
-CompScannedPDF/
-├── CompScannedPDF.pyw          # メインアプリ本体
-├── CompScannedPDF-register.reg # 右クリックメニュー登録用（オプション）
-├── README.md                   # このファイル
-└── CompScannedPDF-manual.txt   # 詳細マニュアル
+CompScannedPDF\
+├── CompScannedPDF.exe   アプリ本体
+├── register.bat         右クリックメニュー登録（任意）
+├── unregister.bat       右クリックメニュー解除
+└── README.md            この説明書
 ```
 
----
+### 2. 起動する
 
-## ⚠️ フォルダ・ファイル名に関する重要な注意事項
+`CompScannedPDF.exe` をダブルクリックします。
 
-> **必ず守ってください。守らないと正常に動作しません。**
+初回は次のような警告が出ることがあります。署名のない自作アプリでは通常起きるものです。
 
-### ❌ パスに日本語を使わない
+- 「Windows によって PC が保護されました」→「詳細情報」→「実行」
+- ウイルス対策ソフトが警告した場合は、このファイルを除外に追加してください
 
-```
-✅ 良い例：  C:\Tools\CompScannedPDF.pyw
-✅ 良い例：  C:\Users\john\Documents\CompScannedPDF.pyw
+起動には数秒かかります（1ファイル形式のため、起動時に内部で展開しています）。
 
-❌ 悪い例：  C:\Users\山田\Documents\CompScannedPDF.pyw
-❌ 悪い例：  C:\ツール\CompScannedPDF.pyw
-```
+### 3. 圧縮する
 
-Windowsのユーザー名が日本語の場合は `C:\Tools\` など別の場所に置いてください。
+1. 上部のエリアをクリックしてPDFを選ぶ
+2. 圧縮モードを選ぶ
+3. 予想サイズを確認する
+4. 「圧縮を開始 →」を押し、保存先を選ぶ
 
-### ❌ ファイル名を変更しない（大文字・小文字も区別されます）
-
-```
-✅ 正しい：  CompScannedPDF.pyw
-❌ 誤り：    compscannedpdf.pyw   （大文字・小文字が違う）
-❌ 誤り：    CompScannedPDF.py    （拡張子が違う）
-```
-
-### ⚠️ フォルダ名にスペースを含めない（推奨）
-
-```
-✅ 推奨：   C:\Tools\CompScannedPDF.pyw
-⚠️ 非推奨： C:\My Tools\CompScannedPDF.pyw
-```
-
----
-
-## 🔧 セットアップ手順
-
-### Step 1 — ツールファイルの配置
-
-`CompScannedPDF.pyw` を任意のフォルダに置いてください。
-
-```
-推奨場所： C:\Tools\CompScannedPDF.pyw
-```
-
-`C:\Tools\` が存在しない場合はエクスプローラーで作成してください。
-
----
-
-### Step 2 — Python のインストール
-
-1. [python.org](https://www.python.org/downloads/) からインストーラーをダウンロード
-2. インストール時に **「Add Python to PATH」に必ずチェックを入れる**
-3. インストール確認：
-
-```powershell
-python --version
-# Python 3.xx.x と表示されれば成功
-```
-
----
-
-### Step 3 — 必要ライブラリのインストール
-
-PowerShell を開いて以下を実行：
-
-```powershell
-pip install pdf2image Pillow pypdf reportlab img2pdf
-```
-
-`Successfully installed ...` と表示されれば成功。
-
----
-
-### Step 4 — poppler のインストール
-
-1. [poppler-windows releases](https://github.com/oschwartz10612/poppler-windows/releases) から最新の `Release-xx.xx.x-0.zip` をダウンロード
-2. 解凍して以下の場所に配置・リネーム：
-
-```
-C:\Tools\poppler\
-```
-
-正しく配置できると `C:\Tools\poppler\Library\bin\` が存在する状態になります。
-
-3. PowerShell で PATH に追加：
-
-```powershell
-[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Tools\poppler\Library\bin", "User")
-```
-
-4. PowerShell を再起動して動作確認：
-
-```powershell
-pdftoppm -v
-# pdftoppm version xx.xx.x と表示されれば成功
-```
-
----
-
-### Step 5 — .pyw ファイルの関連付け設定
-
-`.pyw` ファイルをダブルクリックで起動できるよう設定します。
-
-**① Python の実行ファイルの場所を確認する**
-
-```powershell
-python -c "import sys; print(sys.executable)"
-# 例） C:\Users\john\AppData\Local\Python\pythoncore-3.14-64\python.exe
-```
-
-表示されたパスをメモしておく。（末尾の `python.exe` を `pythonw.exe` に変えて使います）
-
-**② コマンドプロンプトを管理者として開く**
-
-スタートメニューで `cmd` と検索 → 右クリック →「管理者として実行」
-
-**③ 以下の2行を順番に実行する**
-
-`YourName` の部分を①で確認したパスに合わせて書き換えてください。
-
-```cmd
-ftype Python.NoConFile=C:\Users\YourName\AppData\Local\Python\pythoncore-3.14-64\pythonw.exe "%1" %*
-assoc .pyw=Python.NoConFile
-```
-
-`.pyw=Python.NoConFile` と表示されれば成功。
-
-**④ `CompScannedPDF.pyw` をダブルクリックしてアプリが起動すれば完了 ✅**
-
----
-
-## 🖱️ 右クリックメニューへの登録（オプション）
-
-PDFファイルを右クリック →「**Compress with CompScannedPDF**」から直接起動できるようになります。
-
-### 手順
-
-1. `CompScannedPDF-register.reg` をメモ帳で開く
-2. 以下の行の2箇所のパスを書き換える：
-
-```
-@="\"C:\\Users\\YourName\\...\\pythonw.exe\" \"C:\\Tools\\CompScannedPDF.pyw\" \"%1\""
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-         pythonw.exe のフルパス                    CompScannedPDF.pyw のフルパス
-```
-
-**書き換えのルール：**
-- バックスラッシュ `\` は必ず `\\` と2つ書く
-- 引用符 `"` はそのまま残す
-
-**書き換え例（ユーザー名が `john`、ツールを `C:\Tools\` に置いた場合）：**
-
-```
-# 書き換え前
-@="\"C:\\Users\\pikum\\AppData\\Local\\Python\\pythoncore-3.14-64\\pythonw.exe\" \"C:\\Tools\\CompScannedPDF.pyw\" \"%1\""
-
-# 書き換え後
-@="\"C:\\Users\\john\\AppData\\Local\\Python\\pythoncore-3.14-64\\pythonw.exe\" \"C:\\Tools\\CompScannedPDF.pyw\" \"%1\""
-```
-
-3. 上書き保存して `CompScannedPDF-register.reg` をダブルクリック →「はい」
-4. PDFを右クリックして「Compress with CompScannedPDF」が表示されれば完了 ✅
-
-### 登録解除
-
-`regedit` を開いて以下のキーを削除：
-
-```
-HKEY_CLASSES_ROOT\SystemFileAssociations\.pdf\shell\CompScannedPDF
-```
-
----
-
-## 📖 使い方
-
-| ステップ | 操作 |
-|----------|------|
-| 1️⃣ PDFを選択 | 上部エリアをクリックしてスキャンPDFを選択 |
-| 2️⃣ モードを選択 | 用途に合わせて3種類から選ぶ |
-| 3️⃣ 予想サイズを確認 | 圧縮後の予想サイズが自動表示される |
-| 4️⃣ 圧縮を開始 | 「圧縮を開始 →」をクリックして保存先を選択 |
-
-### 圧縮モード
-
-| モード | 解像度 | 画像品質 | おすすめ用途 |
-|--------|--------|----------|-------------|
+| モード | 解像度 | 画質 | おすすめ用途 |
+|---|---|---|---|
 | 品質重視 | 200 dpi | 85% | 契約書・公式書類 |
-| バランス | 150 dpi | 72% | メール添付・社内共有（推奨） |
-| サイズ優先 | 100 dpi | 55% | アーカイブ・参照用 |
+| バランス | 150 dpi | 72% | メール添付・社内共有 |
+| サイズ優先 | 100 dpi | 55% | 保管・参照用 |
+
+> 予想サイズは目安です。実際のサイズは原稿によって変わります。
+
+---
+
+## 🖱️ 右クリックメニューに登録する（任意）
+
+1. `register.bat` を `CompScannedPDF.exe` と同じフォルダに置いたまま、ダブルクリックする
+2. 「Registered」と表示されれば完了
+
+パスの書き換えや管理者権限は不要です。bat が exe の場所を自動で見つけて登録します。
+
+使い方：PDF を右クリック →「Compress with CompScannedPDF」
+
+> **Windows 11 の場合**：右クリック後に「その他のオプションを確認」を選ぶと表示されます（Shift キーを押しながら右クリックでも可）。
+
+### ⚠️ 注意
+
+- 登録後に exe を別のフォルダへ移動した場合は、移動先で `register.bat` をもう一度実行してください
+- 解除するときは `unregister.bat` をダブルクリックします
 
 ---
 
 ## ❓ よくある質問
 
-<details>
-<summary>圧縮後にファイルサイズが大きくなった</summary>
+**圧縮したら大きくなった**
+文字を選択できるPDF（テキストPDF）や、すでに圧縮済みのPDFです。この場合、アプリが警告を表示します。元のファイルをそのままお使いください。
 
-テキストPDF（Wordなどで作成）が対象になっている可能性があります。
-PDFの文字をマウスで選択できる場合はテキストPDFです。
-このツールはスキャンPDFのみ有効です。
+**パスワード付きのPDFは使える？**
+対応していません。パスワードを解除してから圧縮してください。
 
-</details>
+**右クリックメニューに出てこない**
+Windows 11 では「その他のオプションを確認」の中にあります。それでも出ない場合は、exe と同じフォルダで `register.bat` を実行し直してください。
 
-<details>
-<summary>ダブルクリックすると「アプリを選択してください」と出る</summary>
-
-Step 5 の `.pyw` 関連付け設定が完了していません。Step 5 の手順をやり直してください。
-
-</details>
-
-<details>
-<summary>右クリックメニューに「Compress with CompScannedPDF」が出ない</summary>
-
-`CompScannedPDF-register.reg` のパスが実際の場所と違う可能性があります。
-メモ帳でファイルを開いてパスを確認・修正後、再度ダブルクリックして登録し直してください。
-
-</details>
-
-<details>
-<summary>右クリックから起動するとPDFが読み込まれない</summary>
-
-reg ファイル内の `pythonw.exe` のパスが間違っている可能性があります。
-PowerShell で以下を実行してパスを再確認してください：
-
-```powershell
-python -c "import sys; print(sys.executable)"
-```
-
-表示されたパスの `python.exe` を `pythonw.exe` に変えて reg ファイルを書き直して再登録してください。
-
-</details>
-
-<details>
-<summary>処理が遅い・途中で止まっているように見える</summary>
-
-ページ数が多いほど時間がかかります。15ページで1〜3分程度が目安です。
-プログレスバーで進捗を確認しながらお待ちください。
-
-</details>
+**右クリックからエラーが出る**
+exe を移動した可能性があります。今ある場所で `register.bat` を実行し直してください。
 
 ---
 
-## 📄 License
+## 🔧 exe の作り方（開発者向け）
 
-MIT License
+### 方法 A：GitHub で自動ビルド（おすすめ）
+
+このリポジトリには GitHub Actions の設定（`.github/workflows/build.yml`）が入っています。Windows PC がなくても exe を作れます。
+
+- **手動で作る**：GitHub の「Actions」タブ →「Build Windows exe」→「Run workflow」。完了後、実行結果のページ下部「Artifacts」から zip をダウンロード
+- **リリースとして公開する**：`v1.0.0` のようなタグを push すると、Releases に `CompScannedPDF-windows.zip` が自動で添付されます
+
+### 方法 B：自分の Windows PC で作る
+
+1. Python をインストール（「Add Python to PATH」にチェック）
+2. `build.bat` をダブルクリック
+3. `dist\CompScannedPDF.exe` が作成されます
+
+ビルドは専用の仮想環境（`.venv-build`）で行うため、PC の Python 環境は汚れません。
+
+### ソースから直接起動する
+
+```powershell
+pip install -r requirements.txt
+python CompScannedPDF.py
+```
+
+---
+
+## 📁 リポジトリ構成
+
+```
+CompScannedPDF.py              アプリ本体（ソース）
+requirements.txt               依存ライブラリ（PyMuPDF）
+build.bat                      exe ビルド用
+register.bat / unregister.bat  右クリックメニュー登録・解除
+.github/workflows/build.yml    GitHub での自動ビルド設定
+```
+
+ファイル名とフォルダ名は英数字のみにしています。日本語を含めると文字化けや動作不良の原因になるため、変更しないでください。
